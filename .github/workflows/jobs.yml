@@ -1,0 +1,31 @@
+name: Startup Job Tracker
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # RUNS EVERY 30 MINUTES
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4 pandas
+
+      - name: Run Job Scraper
+        env:
+          JOB_EMAIL_TO: ${{ secrets.JOB_EMAIL_TO }}
+          JOB_EMAIL_FROM: ${{ secrets.JOB_EMAIL_FROM }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+        run: python daily_jobs.py
