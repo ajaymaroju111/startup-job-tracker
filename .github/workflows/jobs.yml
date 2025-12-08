@@ -1,8 +1,9 @@
 name: Startup Job Tracker
 
 on:
+  workflow_dispatch:    # ✅ Allows manual run
   schedule:
-    - cron: "*/30 * * * *"   # RUNS EVERY 30 MINUTES
+    - cron: "*/30 * * * *"   # ✅ Every 30 minutes
 
 jobs:
   run:
