@@ -58,11 +58,13 @@ if filtered:
     msg["To"] = EMAIL_TO
     msg.set_content(df.to_csv(index=False))
 
+    try:
     with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as s:
         s.starttls()
         s.login(SMTP_USER, SMTP_PASS)
         s.send_message(msg)
+except Exception as e:
+    print("Email failed:", e)
 
-    print("Email sent.")
 else:
     print("No new jobs found.")
